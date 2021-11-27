@@ -10,13 +10,12 @@ transport = RequestsHTTPTransport(
     verify=True,
     retries=3
 )
-dates = sys.argv
-
+dates = sys.argv[1:]
 start, end = get_last_24_h_timestamps()
 
 if dates:
     try:
-        start, end = get_timestamp_range(dates[1], dates[-1])
+        start, end = get_timestamp_range(dates[0], dates[1])
     except ValueError:
         sys.exit('Error! Enter valid dates. Enter dates in format "year-month-day"')
 
