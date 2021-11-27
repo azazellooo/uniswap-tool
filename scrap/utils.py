@@ -15,3 +15,9 @@ def get_last_24_h_timestamps():
     end_timestamp = str(now.timestamp())
     return int(float(start_timestamp)), int(float(end_timestamp))
 
+
+def get_timestamp_range(start_date, end_date):
+    start_timestamp = datetime.strptime(f'{start_date} 00:00:00', '%Y-%m-%d %H:%M:%S').timestamp()
+    end_timestamp = datetime.strptime(f'{end_date} 00:00:00', '%Y-%m-%d %H:%M:%S').timestamp()
+    return int(float(start_timestamp)), int(float(end_timestamp))
+

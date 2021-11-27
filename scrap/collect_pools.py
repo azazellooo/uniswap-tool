@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 import pandas as pd
 import json
@@ -33,8 +34,10 @@ class PoolsCollector:
 
     def write_excel(self, pool_list):
         print('Writing exel...')
+        if len(pool_list) == 0:
+            sys.exit('Warning: Nothing to write, maybe you entered invalid date range. ')
         pools_json = json.dumps(pool_list)
         df_json = pd.read_json(pools_json)
-        df_json.to_excel('pools.xlsx', sheet_name='liquiity-pools')
+        df_json.to_excel('pools.xlsx', sheet_name='liquidity-pools')
         print('Done!')
 
