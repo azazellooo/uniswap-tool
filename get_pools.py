@@ -1,15 +1,10 @@
-from gql.transport.requests import RequestsHTTPTransport
 import sys
 
+from setup import transport, make_pools_querystring
 from scrap.collect_pools import PoolsCollector
 from scrap.gql_queries import GQLQuery
 from scrap.utils import get_last_24_h_timestamps, get_timestamp_range
 
-transport = RequestsHTTPTransport(
-    url='https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
-    verify=True,
-    retries=3
-)
 dates = sys.argv[1:]
 start, end = get_last_24_h_timestamps()
 
@@ -20,27 +15,7 @@ if dates:
         sys.exit('Error! Enter valid dates. Enter dates in format "year-month-day"')
 
 
-query_string = f"""
-    {{
-    pools(first:1000 where: {{ createdAtTimestamp_gte:{start},
-    createdAtTimestamp_lte:{end} }}) {{
-        id
-        liquidity
-        createdAtTimestamp
-        token0 {{
-            symbol
-            volumeUSD
-        }}
-        token1 {{
-            symbol
-            volumeUSD
-        }}
-        volumeToken0
-        volumeToken1
-
-    }}
-    }}
-"""
+query_string = make_pools_querystring(start, end)
 
 
 def main():
