@@ -10,11 +10,13 @@ transport = RequestsHTTPTransport(
 def make_pools_querystring(start, end):
     query_string = f"""
         {{
-        pools(first:1000 where: {{ createdAtTimestamp_gte:{start},
-        createdAtTimestamp_lte:{end} }}) {{
+        swaps(first:1000 where: {{ timestamp_gte:{start},
+        timestamp_lte:{end} }}) {{
             id
-            liquidity
-            createdAtTimestamp
+            pool {{
+                liquidity
+                }}
+            timestamp
             token0 {{
                 symbol
                 volumeUSD
@@ -23,8 +25,8 @@ def make_pools_querystring(start, end):
                 symbol
                 volumeUSD
             }}
-            volumeToken0
-            volumeToken1
+            amount0
+            amount1
 
         }}
         }}
