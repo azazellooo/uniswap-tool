@@ -21,8 +21,8 @@ query_string = make_pools_querystring(start, end)
 def main():
     gql_query = GQLQuery(transport=transport)
     response_data = gql_query.make_request(query_string=query_string)
-    pool_list = response_data.get('pools')
-    collector = PoolsCollector(raw_pool_list=pool_list)
+    pair_list = response_data.get('swaps')
+    collector = PoolsCollector(raw_pair_list=pair_list)
     new_pools = collector.collect_pool_list()
     collector.write_excel(new_pools)
 
