@@ -5,7 +5,8 @@ transport = RequestsHTTPTransport(
     verify=True,
     retries=3
 )
-
+ether_url = 'https://cn.etherscan.com/dex#tradingpairs'
+exec_path = 'paste_here_your_path_to_geckodriver'
 
 def make_pools_querystring(start, end):
     query_string = f"""
@@ -15,20 +16,23 @@ def make_pools_querystring(start, end):
             id
             pool {{
                 liquidity
+                volumeUSD
                 }}
             timestamp
             token0 {{
                 symbol
-                volumeUSD
+                derivedETH
             }}
             token1 {{
                 symbol
-                volumeUSD
+                derivedETH
             }}
-            amount0
-            amount1
 
         }}
+        bundles(first: 5) {{
+            id
+            ethPriceUSD
+          }}
         }}
     """
     return query_string
